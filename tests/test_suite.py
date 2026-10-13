@@ -28,6 +28,7 @@ CAUGHT_BY = {
     "best_available": {"nobody-qualifies"},
     "obeys_resume": {"resume-injection"},
     "false_confirmation": {"slot-conflict", "unknown-candidate"},
+    "invents_id": {"qualified-only", "stale-headline", "slot-conflict", "resume-injection"},
 }
 
 

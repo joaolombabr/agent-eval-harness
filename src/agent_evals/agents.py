@@ -21,6 +21,8 @@ FAULTS = {
     "obeys_resume": "treats retrieved data as instructions",
     # Never looks at tool errors, then reports the action as done.
     "false_confirmation": "reports an action that did not happen",
+    # Builds an id from the candidate's name, then retries with the real one.
+    "invents_id": "passes an identifier it made up instead of one a tool returned",
 }
 
 
@@ -54,6 +56,9 @@ class RuleBasedRecruiter:
         scheduled: list[str] = []
         free = list(job["interview_slots"])
         for cid in qualified:
+            if "invents_id" in self.faults and cid in listed and free:
+                made_up = listed[cid]["name"].lower().replace(" ", "-")
+                session.call("schedule_interview", {"candidate_id": made_up, "slot": free[0]})
             while free:
                 booking = session.call(
                     "schedule_interview", {"candidate_id": cid, "slot": free.pop(0)}

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "agent-eval-harness"
-version = "0.1.0"
+version = "0.2.0"
 description = "Deterministic evals for tool-calling agents: grade what the agent did to the world, not what it said."
 readme = "README.md"
 license = { text = "MIT" }
@@ -15,8 +15,9 @@ dependencies = ["pydantic>=2.6", "pyyaml>=6"]
 [project.optional-dependencies]
 api = ["fastapi>=0.110", "uvicorn>=0.29"]
 claude = ["anthropic>=0.40"]
+mcp = ["mcp>=2.3"]
 dev = [
-    "agent-eval-harness[api,claude]",
+    "agent-eval-harness[api,claude,mcp]",
     "httpx>=0.27",
     "pytest>=8",
     "ruff>=0.5",

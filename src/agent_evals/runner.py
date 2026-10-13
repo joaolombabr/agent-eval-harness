@@ -33,10 +33,15 @@ def load_scenarios(path: str | Path) -> list[Scenario]:
     return scenarios
 
 
+def new_session(scenario: Scenario) -> tuple[World, ToolSession]:
+    """A fresh world for the scenario, and the session that records what happens to it."""
+    world = WORLDS[scenario.world_type](**scenario.world)
+    return world, ToolSession(world, max_steps=scenario.max_steps)
+
+
 def run_trial(agent: Agent, scenario: Scenario) -> TrialResult:
     # A fresh world per trial: nothing an earlier run did can leak into this one.
-    world = WORLDS[scenario.world_type](**scenario.world)
-    session = ToolSession(world, max_steps=scenario.max_steps)
+    world, session = new_session(scenario)
     transcript = Transcript()
     try:
         transcript.final_answer = agent.run(scenario.prompt, session)

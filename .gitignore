@@ -6,4 +6,7 @@ __pycache__/
 dist/
 report.json
 report.md
+audit.json
+audit.md
+run.json
 .env

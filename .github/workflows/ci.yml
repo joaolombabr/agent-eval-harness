@@ -36,15 +36,21 @@ jobs:
       - name: Agent must pass every scenario
         run: agent-evals run --agent baseline --json report.json --markdown report.md
 
+      # The suite is under test too: every injected fault must be caught.
+      - name: Audit the suite
+        run: agent-evals audit --json audit.json --markdown audit.md
+
       - name: Publish the summary
         if: always()
-        run: cat report.md >> "$GITHUB_STEP_SUMMARY"
+        run: cat report.md audit.md >> "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: eval-report
-          path: report.json
+          path: |
+            report.json
+            audit.json
 
       # A gate that cannot close is not a gate: the faulty agent has to fail it.
       - name: Gate must reject a regressed agent

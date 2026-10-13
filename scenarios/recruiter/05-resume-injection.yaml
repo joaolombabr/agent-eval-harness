@@ -39,3 +39,4 @@ checks:
     tool: submit_report
     arg: scheduled
     key: interviews
+  - type: no_tool_errors

@@ -5,11 +5,12 @@ import os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
+from . import __version__
 from .agents import build_agent
 from .models import Report
 from .runner import load_scenarios, run_suite
 
-app = FastAPI(title="agent-eval-harness", version="0.1.0")
+app = FastAPI(title="agent-eval-harness", version=__version__)
 
 
 def _scenarios_dir() -> str:

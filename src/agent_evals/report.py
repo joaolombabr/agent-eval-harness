@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .models import Report, ScenarioResult
+from .models import Report, ScenarioResult, TrialResult
 
 
 def _failures(scenario: ScenarioResult) -> list[str]:
@@ -42,3 +42,13 @@ def to_markdown(report: Report) -> str:
         failures = "<br>".join(f.replace("|", "\\|") for f in _failures(scenario)) or "-"
         lines.append(f"| `{scenario.scenario_id}` | {_score(scenario)} | {failures} |")
     return "\n".join(lines) + "\n"
+
+
+def trial_to_text(scenario_id: str, trial: TrialResult) -> str:
+    """One graded run, check by check."""
+    lines = [f"{'PASS' if trial.passed else 'FAIL'}  {scenario_id}"]
+    for result in trial.checks:
+        mark = "ok  " if result.passed else "FAIL"
+        detail = f": {result.detail}" if result.detail else ""
+        lines.append(f"  {mark}  {result.check}{detail}")
+    return "\n".join(lines)

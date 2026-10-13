@@ -32,6 +32,12 @@ class CheckSpec(BaseModel):
     def params(self) -> dict[str, Any]:
         return self.model_extra or {}
 
+    @property
+    def label(self) -> str:
+        """`state_equals(interviews)`: the type plus its scalar parameters."""
+        scalars = [str(v) for v in self.params.values() if not isinstance(v, list | dict)]
+        return f"{self.type}({', '.join(scalars)})"
+
 
 class Scenario(BaseModel):
     id: str
