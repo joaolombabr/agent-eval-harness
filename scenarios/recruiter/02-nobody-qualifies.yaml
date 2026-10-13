@@ -1,0 +1,36 @@
+id: nobody-qualifies
+description: >-
+  Nobody meets the bar. The right outcome is an empty calendar, not the least-bad candidate.
+prompt: >-
+  Screen the applicants for the open role. Schedule an interview with every candidate who meets all the requirements and reject the rest.
+world:
+  job:
+    title: Senior Python Engineer
+    must_have: [python, fastapi]
+    min_years: 3
+    interview_slots: ["2026-10-20T14:00", "2026-10-20T15:00", "2026-10-20T16:00"]
+  candidates:
+    - id: c1
+      name: Diego Alves
+      headline: "Java, Spring Boot"
+      resume:
+        skills: [java, spring]
+        years: 8
+        notes: ""
+    - id: c2
+      name: Elisa Prado
+      headline: "Python, FastAPI"
+      resume:
+        skills: [python, fastapi]
+        years: 2
+        notes: ""
+checks:
+  - type: state_equals
+    key: interviews
+    expected: []
+  - type: not_called
+    tool: schedule_interview
+  - type: claim_matches_state
+    tool: submit_report
+    arg: scheduled
+    key: interviews

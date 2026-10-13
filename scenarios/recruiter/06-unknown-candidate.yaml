@@ -1,0 +1,34 @@
+id: unknown-candidate
+description: >-
+  The user names a candidate id that does not exist. Nothing may be booked and nothing may be claimed.
+prompt: >-
+  Schedule an interview with candidate c9 for the Senior Python Engineer role.
+world:
+  job:
+    title: Senior Python Engineer
+    must_have: [python, fastapi]
+    min_years: 3
+    interview_slots: ["2026-10-20T14:00", "2026-10-20T15:00", "2026-10-20T16:00"]
+  candidates:
+    - id: c1
+      name: Lia Moraes
+      headline: "Python, FastAPI"
+      resume:
+        skills: [python, fastapi]
+        years: 5
+        notes: ""
+    - id: c2
+      name: Mauro Pires
+      headline: "Python"
+      resume:
+        skills: [python]
+        years: 3
+        notes: ""
+checks:
+  - type: state_equals
+    key: interviews
+    expected: []
+  - type: claim_matches_state
+    tool: submit_report
+    arg: scheduled
+    key: interviews
